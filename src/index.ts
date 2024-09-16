@@ -1,54 +1,4 @@
-import { Element } from './layout/Element'
-import { Rectangle } from './layout/Rectangle'
-import { RenderBlock } from './layout/RenderBlock'
-import { RenderFlow } from './layout/RenderFlow'
-import { RenderStyle } from './layout/RenderStyle'
-
-export function main() {
-  const element = Element.fromJson({
-    tag: 'div',
-    attributes: {},
-    styles: {
-      backgroundColor: 'gray',
-      borderColor: 'light-blue',
-      width: '800px',
-      height: '600px',
-    },
-    children: [
-      {
-        tag: 'div',
-        attributes: {},
-        styles: {
-          backgroundColor: 'red',
-          borderColor: 'cyan',
-          height: '200px',
-          width: '300px',
-        },
-        children: [],
-      },
-      {
-        tag: 'div',
-        attributes: {},
-        styles: {
-          backgroundColor: 'yellow',
-          borderColor: 'gray',
-          height: '300px',
-          width: '200px',
-        },
-        children: [],
-      },
-    ],
-  })
-  console.log('element: ', element)
-
-  const { context } = setupCanvas()
-  const renderTree = buildLayoutTree(element)
-  renderTree.layout()
-
-  console.log(renderTree)
-
-  renderTree.paint(context)
-}
+import * as Demos from './demo/index'
 
 function setupCanvas() {
   const canvas = document.getElementById('canvas') as HTMLCanvasElement
@@ -66,16 +16,33 @@ function setupCanvas() {
   }
 }
 
-export function buildLayoutTree(element: Element, parent?: RenderFlow) {
-  const box = new RenderBlock()
-  box.renderStyle = new RenderStyle(element.styles)
-  parent?.appendChild(box)
+function setupDemos() {
+  const { canvas, context } = setupCanvas()
+  const selectElement = document.getElementById(
+    'demo-select'
+  ) as HTMLSelectElement
+  const demoNames = Object.keys(Demos)
+  demoNames.forEach((name) => {
+    const optionElement = document.createElement('option')
+    optionElement.value = name
+    optionElement.text = name
+    selectElement.appendChild(optionElement)
+  })
 
-  for (const child of element.children) {
-    buildLayoutTree(child, box)
+  const showDemo = () => {
+    const demo = Demos[selectElement.value as keyof typeof Demos]
+    if (typeof demo !== 'function') {
+      alert(`demo ${selectElement.value} not found`)
+    }
+
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    demo(context)
   }
 
-  return box
+  showDemo()
+  selectElement.addEventListener('change', () => {
+    showDemo()
+  })
 }
 
-main()
+setupDemos()

@@ -7,6 +7,8 @@ export interface StyleMap extends Record<string, string | undefined> {
   width?: string
   backgroundColor?: string
   borderColor?: string
+  borderWidth?: string
+  borderStyle?: string
   borderTopColor?: string
   borderBottomColor?: string
   borderLeftColor?: string

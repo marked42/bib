@@ -107,6 +107,15 @@ export class RenderFlow extends RenderObject {
     )
   }
 
+  get contentRect() {
+    return new PositionedRectangle({
+      x: this.contentTopLeftPos.x,
+      y: this.contentTopLeftPos.y,
+      width: this.dimensions.content.width,
+      height: this.dimensions.content.height,
+    })
+  }
+
   containingRect() {
     return this.dimensions.content
   }

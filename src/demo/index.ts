@@ -16,7 +16,6 @@ export function demoBlockFixedWidth(context: CanvasRenderingContext2D) {
     attributes: {},
     styles: {
       backgroundColor: 'gray',
-      borderColor: 'light-blue',
       width: '200px',
       height: '200px',
     },
@@ -32,7 +31,6 @@ export function demoBlockPercentWidth(context: CanvasRenderingContext2D) {
     attributes: {},
     styles: {
       backgroundColor: 'gray',
-      borderColor: 'light-blue',
       width: '30%',
       height: '50%',
     },
@@ -48,7 +46,6 @@ export function demoBlockAutoWidth(context: CanvasRenderingContext2D) {
     attributes: {},
     styles: {
       backgroundColor: 'gray',
-      borderColor: 'light-blue',
       width: 'auto',
       height: '200px',
       margin: '100px',
@@ -67,7 +64,6 @@ export function demoBlockOverflowAutoMarginRightAdjustedToNegative(
     attributes: {},
     styles: {
       backgroundColor: 'gray',
-      borderColor: 'light-blue',
       width: 'auto',
       height: '200px',
       margin: 'auto',
@@ -87,7 +83,6 @@ export function demoBlockOverflowNonAutoMarginRightNotAdjusted(
     attributes: {},
     styles: {
       backgroundColor: 'gray',
-      borderColor: 'light-blue',
       width: 'auto',
       height: '200px',
       margin: '10px',
@@ -105,7 +100,6 @@ export function demoBlockUnderflowAutoWidth(context: CanvasRenderingContext2D) {
     attributes: {},
     styles: {
       backgroundColor: 'gray',
-      borderColor: 'light-blue',
       width: 'auto',
       height: '200px',
       margin: '50px',
@@ -125,7 +119,6 @@ export function demoBlockUnderflowAutoWidthAutoMargins(
     attributes: {},
     styles: {
       backgroundColor: 'gray',
-      borderColor: 'light-blue',
       width: 'auto',
       height: '200px',
       margin: 'auto',
@@ -145,10 +138,29 @@ export function demoBlockUnderflowFixedWidthAutoMargins(
     attributes: {},
     styles: {
       backgroundColor: 'gray',
-      borderColor: 'light-blue',
       width: '200px',
       height: '200px',
       margin: 'auto',
+      padding: '100px',
+    },
+    children: [],
+  })
+
+  renderElement(context, element)
+}
+
+export function demoPaintBorder(context: CanvasRenderingContext2D) {
+  const element = Element.fromJson({
+    tag: 'div',
+    attributes: {},
+    styles: {
+      backgroundColor: 'gray',
+      width: '200px',
+      height: '200px',
+      margin: 'auto',
+      borderWidth: '10px',
+      borderColor: 'black',
+      borderStyle: 'solid',
       padding: '100px',
     },
     children: [],

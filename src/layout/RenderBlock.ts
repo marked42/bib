@@ -56,10 +56,10 @@ export class RenderBlock extends RenderFlow {
     }
 
     const borders = {
-      left: parseStyleBorder(this.renderStyle.styles.border || '0px'),
-      right: parseStyleBorder(this.renderStyle.styles.border || '0px'),
-      top: parseStyleBorder(this.renderStyle.styles.border || '0px'),
-      bottom: parseStyleBorder(this.renderStyle.styles.border || '0px'),
+      left: parseStyleBorder(this.renderStyle.styles.borderWidth || '0px'),
+      right: parseStyleBorder(this.renderStyle.styles.borderWidth || '0px'),
+      top: parseStyleBorder(this.renderStyle.styles.borderWidth || '0px'),
+      bottom: parseStyleBorder(this.renderStyle.styles.borderWidth || '0px'),
     }
 
     const horizontalLengths = [
@@ -147,6 +147,17 @@ export class RenderBlock extends RenderFlow {
     this.dimensions.border.right = styleLengthToPx(borders.right, parentWidth)
     this.dimensions.margin.left = styleLengthToPx(margins.left, parentWidth)
     this.dimensions.margin.right = styleLengthToPx(margins.right, parentWidth)
+
+    // vertical
+    this.dimensions.padding.top = styleLengthToPx(paddings.top, parentWidth)
+    this.dimensions.padding.bottom = styleLengthToPx(
+      paddings.bottom,
+      parentWidth
+    )
+    this.dimensions.border.top = styleLengthToPx(borders.top, parentWidth)
+    this.dimensions.border.bottom = styleLengthToPx(borders.bottom, parentWidth)
+    this.dimensions.margin.top = styleLengthToPx(margins.top, parentWidth)
+    this.dimensions.margin.bottom = styleLengthToPx(margins.bottom, parentWidth)
   }
 
   calculateHeight() {
@@ -182,11 +193,11 @@ export class RenderBlock extends RenderFlow {
         this.borderRightRect,
       ]
 
-      const { x, y } = this.globalPosition
       borderRectangles.forEach((rect) => {
-        const { width, height } = rect
+        const { x, y } = this.globalPosition
+        const { pos, width, height } = rect.add(x, y)
         canvas.fillStyle = this.renderStyle.borderColor
-        canvas.fillRect(x, y, width, height)
+        canvas.fillRect(pos.x, pos.y, width, height)
       })
     }
 
@@ -196,6 +207,15 @@ export class RenderBlock extends RenderFlow {
       canvas.fillStyle = this.renderStyle.backgroundColor
       canvas.fillRect(pos.x, pos.y, width, height)
 
+      // TODO: paint content box to see its content area
+      const contentRect = this.contentRect.add(x, y)
+      canvas.strokeStyle = 'red'
+      canvas.strokeRect(
+        contentRect.pos.x,
+        contentRect.pos.y,
+        contentRect.width,
+        contentRect.height
+      )
       console.log('dimensions: ', this.dimensions)
     }
 

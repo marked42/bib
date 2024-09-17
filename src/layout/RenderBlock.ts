@@ -105,14 +105,15 @@ export class RenderBlock extends RenderFlow {
       }
     } else {
       const underflow = parentWidth - total
+      const widthIsAuto = isAuto(size.width)
       size.width = {
         type: CSSLengthValueType.Length,
-        value: isAuto(size.width)
+        value: widthIsAuto
           ? underflow
           : styleLengthToRemaining(size.width, parentWidth, underflow),
         unit: LengthUnit.Px,
       }
-      const remaining = isAuto(size.width) ? 0 : underflow
+      const remaining = widthIsAuto ? 0 : underflow
 
       if (isAuto(margins.left) && isAuto(margins.right)) {
         margins.left = {

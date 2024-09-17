@@ -6,24 +6,20 @@ import { RenderObject } from './RenderObject'
 export class RenderFlow extends RenderObject {
   pos: Coordinate
   dimensions: BoxDimensions
-  parent?: RenderFlow
+  parent: RenderObject
   children: RenderFlow[]
 
-  constructor() {
+  constructor(parent: RenderObject) {
     super()
     this.dimensions = BoxDimensions.default
     this.children = []
     this.pos = Coordinate.origin
+    this.parent = parent
   }
 
   appendChild(child: RenderFlow) {
     child.parent = this
     this.children.push(child)
-  }
-
-  insertChild(index: number, child: RenderFlow) {
-    child.parent = this
-    this.children.splice(index, 0, child)
   }
 
   get globalPosition(): Coordinate {
@@ -60,7 +56,10 @@ export class RenderFlow extends RenderObject {
   get borderBottomRect() {
     return new PositionedRectangle({
       x: this.borderTopLeftPos.x,
-      y: this.borderTopLeftPos.y + this.dimensions.paddingBox.height,
+      y:
+        this.borderTopLeftPos.y +
+        this.dimensions.paddingBox.height +
+        this.dimensions.border.top,
       width: this.dimensions.borderBox.width,
       height: this.dimensions.border.bottom,
     })
@@ -77,7 +76,10 @@ export class RenderFlow extends RenderObject {
 
   get borderRightRect() {
     return new PositionedRectangle({
-      x: this.borderTopLeftPos.x + this.dimensions.paddingBox.width,
+      x:
+        this.borderTopLeftPos.x +
+        this.dimensions.paddingBox.width +
+        this.dimensions.border.left,
       y: this.borderTopLeftPos.y,
       width: this.dimensions.border.right,
       height: this.dimensions.borderBox.height,
@@ -85,8 +87,8 @@ export class RenderFlow extends RenderObject {
   }
 
   get paddingTopLeftPos() {
-    return this.marginTopLeftPos.offset(
-      new Coordinate(this.dimensions.padding.left, this.dimensions.padding.top)
+    return this.borderTopLeftPos.offset(
+      new Coordinate(this.dimensions.border.left, this.dimensions.border.top)
     )
   }
 
@@ -97,5 +99,15 @@ export class RenderFlow extends RenderObject {
       width: this.dimensions.paddingBox.width,
       height: this.dimensions.paddingBox.height,
     })
+  }
+
+  get contentTopLeftPos() {
+    return this.paddingTopLeftPos.offset(
+      new Coordinate(this.dimensions.padding.left, this.dimensions.padding.top)
+    )
+  }
+
+  containingRect() {
+    return this.dimensions.content
   }
 }

@@ -39,7 +39,7 @@ export class PositionedRectangle extends Rectangle {
     this.pos = new Coordinate(options.x, options.y)
   }
 
-  relative(x: number, y: number) {
+  add(x: number, y: number) {
     return new PositionedRectangle({
       x: this.pos.x + x,
       y: this.pos.y + y,

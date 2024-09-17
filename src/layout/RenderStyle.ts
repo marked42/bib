@@ -1,3 +1,4 @@
+import { parseStyleWidth } from '../CSS/index'
 import { Display } from './Display'
 
 export interface StyleMap extends Record<string, string | undefined> {
@@ -23,13 +24,13 @@ export class RenderStyle {
     return new RenderStyle({ display: Display.Block })
   }
 
-  get width() {
-    return this.styles.width || ''
-  }
+  // get width() {
+  //   return parseStyleWidth(this.styles.width || 'auto')
+  // }
 
-  get height() {
-    return this.styles.height || ''
-  }
+  // get height() {
+  //   return parseStyleWidth(this.styles.height || 'auto')
+  // }
 
   get borderColor() {
     return this.styles.borderColor || 'white'

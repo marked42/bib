@@ -1,4 +1,6 @@
+import { Coordinate } from './Coordinate'
 import { Display } from './Display'
+import { Rectangle } from './Rectangle'
 import { RenderStyle } from './RenderStyle'
 
 export class RenderObject {
@@ -51,6 +53,18 @@ export class RenderObject {
   }
 
   paint(canvas: CanvasRenderingContext2D) {
+    throw new Error('not implemented')
+  }
+
+  containingRect(): Rectangle {
+    throw new Error('not implemented')
+  }
+
+  get globalPosition() {
+    return Coordinate.origin
+  }
+
+  appendChild(child: RenderObject) {
     throw new Error('not implemented')
   }
 }

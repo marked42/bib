@@ -1,16 +1,29 @@
 import { Element } from './Element'
 import { RenderBlock } from './RenderBlock'
-import { RenderFlow } from './RenderFlow'
+import { RenderObject } from './RenderObject'
 import { RenderStyle } from './RenderStyle'
+import { RenderView } from './RenderView'
 
-export function buildLayoutTree(element: Element, parent?: RenderFlow) {
-  const box = new RenderBlock()
-  box.renderStyle = new RenderStyle(element.styles)
-  parent?.appendChild(box)
+export function buildLayoutTree(
+  element: Element,
+  width: number,
+  height: number
+) {
+  const root = new RenderView(width, height)
 
-  for (const child of element.children) {
-    buildLayoutTree(child, box)
+  const buildTree = (element: Element, parent: RenderObject) => {
+    const box = new RenderBlock(parent)
+    box.renderStyle = new RenderStyle(element.styles)
+    parent.appendChild(box)
+
+    for (const child of element.children) {
+      buildTree(child, box)
+    }
+
+    return box
   }
 
-  return box
+  buildTree(element, root)
+
+  return root
 }

@@ -97,7 +97,7 @@ export class RenderBlock extends RenderFlow {
       }
       // negative margin
       if (isAuto(margins.right)) {
-        margins.left = {
+        margins.right = {
           type: CSSLengthValueType.Length,
           value: -overflow,
           unit: LengthUnit.Px,
@@ -105,19 +105,14 @@ export class RenderBlock extends RenderFlow {
       }
     } else {
       const underflow = parentWidth - total
-      const contentWidth = styleLengthToRemaining(
-        size.width,
-        parentWidth,
-        underflow
-      )
       size.width = {
         type: CSSLengthValueType.Length,
-        value: contentWidth,
+        value: isAuto(size.width)
+          ? underflow
+          : styleLengthToRemaining(size.width, parentWidth, underflow),
         unit: LengthUnit.Px,
       }
-
-      // this.dimensions.content.width = contentWidth
-      const remaining = underflow - contentWidth
+      const remaining = isAuto(size.width) ? 0 : underflow
 
       if (isAuto(margins.left) && isAuto(margins.right)) {
         margins.left = {

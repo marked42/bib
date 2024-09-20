@@ -25,13 +25,11 @@ export class Row extends LayoutObject {
     return result
   }
 
-  render(screen: Screen, fill: string) {
-    fill = super.render(screen, fill)
+  render(screen: Screen) {
+    super.render(screen)
 
     this.children.forEach((child) => {
-      fill = child.render(screen, fill)
+      child.render(screen)
     })
-
-    return fill
   }
 }

@@ -1,8 +1,9 @@
 import { LayoutObject } from '@/EasyMode'
-import { makeScreen } from './Screen'
+import { makeScreen, resetFill } from './Screen'
 
 export function render(node: LayoutObject) {
   const screen = makeScreen(node.getWidth(), node.getHeight())
-  node.render(screen, '')
+  resetFill()
+  node.render(screen)
   return screen
 }

@@ -28,4 +28,8 @@ export abstract class LayoutObject {
       }
     }
   }
+
+  wrap(): LayoutObject {
+    return this
+  }
 }

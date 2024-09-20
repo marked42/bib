@@ -1,3 +1,5 @@
+import { nextFill, Screen } from '../Render/Screen'
+
 export type ReportResult = string | number | ReportResult[]
 
 export abstract class LayoutObject {
@@ -15,5 +17,16 @@ export abstract class LayoutObject {
 
   report(): ReportResult {
     return ['LayoutObject', this.getWidth(), this.getHeight()]
+  }
+
+  render(screen: Screen, fill: string) {
+    fill = nextFill(fill)
+    for (let ix = 0; ix < this.getWidth(); ix += 1) {
+      for (let iy = 0; iy < this.getHeight(); iy += 1) {
+        screen[this.y0 + iy][this.x0 + ix] = fill
+      }
+    }
+
+    return fill
   }
 }

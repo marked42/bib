@@ -1,3 +1,4 @@
+import { Screen } from '../Render/Screen'
 import { LayoutObject } from './LayoutObject'
 
 export class Row extends LayoutObject {
@@ -22,5 +23,15 @@ export class Row extends LayoutObject {
       result = Math.max(result, child.getHeight())
     }
     return result
+  }
+
+  render(screen: Screen, fill: string) {
+    fill = super.render(screen, fill)
+
+    this.children.forEach((child) => {
+      fill = child.render(screen, fill)
+    })
+
+    return fill
   }
 }

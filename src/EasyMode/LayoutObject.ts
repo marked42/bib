@@ -1,10 +1,18 @@
+import { CssRuleSet } from '../Dom/CssRuleSet'
+import { CssRule } from '../Dom/CssRule'
 import { nextFill, Screen } from '../Render/Screen'
 
 export type ReportResult = string | number | ReportResult[]
 
+export type Attribute = Record<string, string>
+
 export abstract class LayoutObject {
   x0 = 0
   y0 = 0
+
+  tag = ''
+  rules: CssRule[] = []
+  attributes: Attribute = {}
 
   abstract getWidth(): number
 
@@ -31,5 +39,9 @@ export abstract class LayoutObject {
 
   wrap(): LayoutObject {
     return this
+  }
+
+  findRules(css: CssRuleSet) {
+    this.rules = css.findRules(this)
   }
 }
